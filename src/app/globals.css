@@ -1,0 +1,61 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--card));
+  --color-popover-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--secondary));
+  --color-accent-foreground: hsl(var(--secondary-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-success: hsl(var(--success));
+  --color-gold: hsl(var(--gold));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--border));
+  --color-ring: hsl(var(--primary));
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+  --font-display: var(--font-outfit), system-ui, sans-serif;
+  --font-heading: var(--font-outfit), system-ui, sans-serif;
+  --radius-lg: 0.75rem;
+  --radius-md: calc(0.75rem - 2px);
+  --radius-sm: calc(0.75rem - 4px);
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+}
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Same Maskani tokens as maskani-ui (plum, deep plum, gold, slate). Light only for the public site. */
+@layer base {
+  :root {
+    --background: 320 20% 98.5%;
+    --foreground: 314 30% 13%;
+    --card: 0 0% 100%;
+    --card-foreground: 314 30% 13%;
+    --primary: 314 62% 27%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 314 22% 94%;
+    --secondary-foreground: 314 45% 20%;
+    --muted: 314 16% 95%;
+    --muted-foreground: 223 7% 40%;
+    --destructive: 0 72% 45%;
+    --success: 152 60% 30%;
+    --gold: 38 56% 51%;
+    --border: 314 14% 89%;
+  }
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground antialiased; }
+  h1, h2, h3 { font-family: var(--font-display); }
+}
