@@ -1,13 +1,17 @@
 import type { Metadata, Viewport } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { DM_Sans, Outfit } from 'next/font/google';
+import { DM_Sans, Fraunces, Outfit } from 'next/font/google';
+import { SiteNav } from '@/components/site-nav';
 import './globals.css';
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', display: 'swap', weight: ['500', '600', '700'] });
 const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-dm-sans', display: 'swap', weight: ['400', '500', '600'] });
+// Soft serif for headlines; body text stays DM Sans and figures stay Outfit.
+const fraunces = Fraunces({ subsets: ['latin'], variable: '--font-fraunces', display: 'swap', axes: ['SOFT', 'opsz'] });
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://maskani.codevertexafrica.com';
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://maskaniapp.codevertexafrica.com';
 
 export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#6E1A5A' };
 
@@ -21,21 +25,27 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${dmSans.variable}`}>
-      <body className="font-sans">
-        <header className="border-b bg-card">
-          <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-            <Link href="/" aria-label="Maskani Marketplace home">
-              <Image src="/brand/maskani-marketplace-logo.svg" alt="Maskani Marketplace" width={190} height={40} priority />
-            </Link>
-            <a href="https://maskaniapp.codevertexafrica.com" className="text-sm font-medium text-primary">Estate sign-in</a>
-          </div>
-        </header>
+    <html lang="en" className={`${outfit.variable} ${dmSans.variable} ${fraunces.variable}`}>
+      <body className="bg-paper font-sans">
+        <SiteNav />
         <main className="min-h-[70dvh]">{children}</main>
-        <footer className="mt-12 border-t bg-card">
-          <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-6 text-xs text-muted-foreground sm:flex-row sm:justify-between sm:px-6">
-            <span>Maskani Marketplace by Codevertex Africa Limited</span>
-            <span>Never pay a deposit before viewing and signing. Managed estates take payments only on their own verified paybill.</span>
+        <footer className="border-t border-border/60 bg-background">
+          <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-[1fr_auto]">
+            <div className="max-w-md space-y-3">
+              <Image src="/brand/maskani-marketplace-logo.svg" alt="Maskani Marketplace" width={150} height={32} />
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Never pay a deposit before viewing and signing. Estates on Maskani take payments only on their own verified paybill,
+                shown on the bill from the developer.
+              </p>
+            </div>
+            <nav className="flex flex-col gap-2 text-sm text-muted-foreground" aria-label="Footer">
+              <Link href="/#estates" className="hover:text-foreground">Estates</Link>
+              <Link href="/#buying" className="hover:text-foreground">How buying works</Link>
+              <a href={APP_URL} className="hover:text-foreground">Estate sign-in</a>
+            </nav>
+          </div>
+          <div className="border-t border-border/60">
+            <p className="mx-auto max-w-6xl px-4 py-5 text-xs text-muted-foreground sm:px-6">Maskani Marketplace by Codevertex Africa Limited, Nairobi.</p>
           </div>
         </footer>
       </body>

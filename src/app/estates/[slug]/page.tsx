@@ -54,32 +54,37 @@ export default async function EstatePage({ params }: Params) {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:py-12">
       {/* "<" escaped so text from the estate record can never close the script tag. */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
-      <div className="mb-6 space-y-2">
-        <h1 className="text-3xl font-bold">{e.name}</h1>
-        <p className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+      <div className="mb-8 space-y-3 animate-rise">
+        <h1 className="font-serif-soft text-4xl leading-tight sm:text-5xl">{e.name}</h1>
+        <p className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
           {(e.area || e.town) && <span className="flex items-center gap-1"><MapPin className="h-4 w-4" /> {[e.area, e.town, e.county].filter(Boolean).join(', ')}</span>}
-          {e.verified && <span className="flex items-center gap-1 font-medium text-success"><BadgeCheck className="h-4 w-4" /> Verified developer, managed on Maskani</span>}
+          {e.verified && <span className="inline-flex items-center gap-1 rounded-full bg-card px-3 py-1 font-medium text-success shadow-soft"><BadgeCheck className="h-4 w-4" /> Verified developer, managed on Maskani</span>}
         </p>
       </div>
       {photos.length > 0 && (
-        <div className="mb-6 grid grid-cols-2 gap-2 sm:grid-cols-3">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          {photos.slice(0, 6).map((p) => <img key={p} src={p} alt={e.name} className="aspect-[4/3] w-full rounded-lg object-cover" />)}
+        // First photo large, the next four in a grid beside it (stacked on phones).
+        <div className="mb-10 grid gap-3 md:grid-cols-4 md:grid-rows-2">
+          {photos.slice(0, 5).map((p, i) => (
+            <div key={p} className={i === 0 ? 'photo-zoom aspect-[4/3] overflow-hidden rounded-[1.5rem] md:col-span-2 md:row-span-2 md:aspect-auto' : 'photo-zoom hidden aspect-[4/3] overflow-hidden rounded-[1.25rem] md:block'}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={p} alt={`${e.name}, photo ${i + 1}`} loading={i === 0 ? 'eager' : 'lazy'} className="h-full w-full object-cover" />
+            </div>
+          ))}
         </div>
       )}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.5fr_1fr]">
-        <div className="space-y-6">
-          {e.description && <p className="whitespace-pre-line text-muted-foreground">{e.description}</p>}
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.5fr_1fr]">
+        <div className="space-y-8">
+          {e.description && <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-muted-foreground">{e.description}</p>}
           {(e.amenities?.length ?? 0) > 0 && (
             <div>
-              <h2 className="mb-2 text-lg font-semibold">Amenities</h2>
-              <ul className="flex flex-wrap gap-2">{e.amenities!.map((a) => <li key={a} className="rounded-full border bg-card px-3 py-1 text-sm">{titleCase(a)}</li>)}</ul>
+              <h2 className="mb-3 font-serif-soft text-2xl">Amenities</h2>
+              <ul className="flex flex-wrap gap-2">{e.amenities!.map((a) => <li key={a} className="rounded-full border border-border/60 bg-card px-3.5 py-1.5 text-sm">{titleCase(a)}</li>)}</ul>
             </div>
           )}
-          <Card>
+          <Card className="rounded-[1.5rem] shadow-soft">
             <CardHeader><CardTitle>Units for sale</CardTitle></CardHeader>
             <CardContent className="p-0">
               {types.length === 0 ? <p className="px-6 py-6 text-sm text-muted-foreground">All units are sold or reserved.</p> : (
@@ -100,12 +105,12 @@ export default async function EstatePage({ params }: Params) {
               )}
             </CardContent>
           </Card>
-          <p className="flex items-start gap-2 rounded-lg bg-secondary px-4 py-3 text-sm">
+          <p className="flex items-start gap-3 rounded-[1.25rem] bg-secondary px-5 py-4 text-sm leading-relaxed">
             <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
             Never pay before viewing and signing. Deposits for this estate are paid only to its own paybill, shown on your bill from the developer.
           </p>
         </div>
-        <Card className="h-fit lg:sticky lg:top-6">
+        <Card className="h-fit rounded-[1.5rem] shadow-lift lg:sticky lg:top-24">
           <CardHeader><CardTitle>Enquire</CardTitle></CardHeader>
           <CardContent><EnquiryForm estateSlug={e.slug} /></CardContent>
         </Card>
