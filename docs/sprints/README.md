@@ -3,6 +3,7 @@
 | Sprint | File |
 |---|---|
 | S0 | [sprint-00-showcase.md](sprint-00-showcase.md) |
+| S6 | [sprint-06-hardening.md](sprint-06-hardening.md) |
 | S8 | [sprint-08-marketplace.md](sprint-08-marketplace.md) |
 
 ## Standing rules (from `.claude/memory`)
