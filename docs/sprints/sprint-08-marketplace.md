@@ -13,6 +13,10 @@ Matches `maskani-api/docs/sprints/sprint-08-r3-marketplace.md`.
 | Listers | Listing plans, featured placement paid through treasury, listing performance stats |
 | Moderation | Report a listing; takedown notices |
 | SEO | Area pages, sitemaps, structured data, canonical links |
+| Categories and kinds | Homes, offices and co-working, shops, warehouses, land; for sale, rent, lease and short stay. Workspace listings book by the hour, day or month; short stays open the unit's pos-api booking widget |
+| Land | Plot size, zoning, title type, and the official search date (ArdhiSasa or registry) shown on verified land listings; safe-payment rule on every land and sale page |
+| Management tenders | Owners post a request for management (property, units, services, budget); verified management firms bid; side-by-side comparison; the accepted bid becomes a mandate in the firm's Maskani tenant. Research in `maskani-api/docs/market-research.md` |
+| Lister profiles | Agency or firm page with verification badge and date, EARB number for agents, active listings, response time |
 
 ## Rules to apply
 
