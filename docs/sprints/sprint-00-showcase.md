@@ -30,8 +30,8 @@ Plan: `.claude/plans/maskani-r1-completion-r2-rentals-2026-10-09.md` (wave in br
 - [ ] The acceptance line says an enquiry appears in maskani-ui under Sales; maskani-ui has no enquiries inbox yet although `GET /enquiries` and `PATCH /enquiries/{id}` exist (wave 2.12)
 - [ ] `GET /market/units/{id}` is named in the UX spec but not built; unit page, unit JSON-LD and sitemap entries follow it (wave 2.12)
 - [ ] Legal links and cookie consent from shared-ui-lib (`LegalLinks`, `CookieNotice`); add shared-ui-lib as a dependency (wave 2.12)
-- [ ] Photos go through `next/image` with the configured remote pattern instead of a plain `<img>` (wave 1c)
-- [ ] not-found and error pages (wave 1c)
+- [ ] Photos go through `next/image` (moved to wave 2.12). Audit 2026-10-09 found estate and unit photos cannot be set at all yet: the API has no photo input and the console no gallery, and stored media keys are dropped by `publicPhotos`, so every card shows the initials tile. The work is one piece: a photo gallery on the property and unit screens (media kinds `properties` and `units`), the market API signing those keys with a long-lived public signer memoised per key so URLs stay stable between 5-minute revalidations, then `next/image` for maskani-hosted photos under the existing `remotePatterns` entry (other https hosts keep the plain lazy `<img>`)
+- [x] not-found and error pages (2026-10-09); `typescript.ignoreBuildErrors` off, so `next build` type-checks
 - [ ] Dead code: `components/ui/badge.tsx`, `components/ui/checkbox.tsx`, the unused `unitId`/`unitLabel` props on `EnquiryForm`, three unused images in `public/images` (wave 1c)
 
 ## Acceptance
