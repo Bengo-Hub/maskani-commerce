@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { BadgeCheck, MapPin, ShieldCheck } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -25,14 +26,19 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 /** Units grouped by type with the lowest price and how many are available. */
 function byType(units: PublicUnit[]) {
-  const m = new Map<string, { type: string; count: number; from: number; size: number; beds?: number; deposit?: number; term?: number }>();
+  const m = new Map<string, { type: string; count: number; from: number; size: number; beds?: number; deposit?: number; term?: number; photo?: string }>();
   for (const u of units) {
     if (u.status !== 'available') continue;
     const k = u.unit_type || 'Unit';
     const cur = m.get(k);
     const price = num(u.price);
-    if (!cur) m.set(k, { type: k, count: 1, from: price, size: num(u.size_sqm), beds: u.bedrooms, deposit: u.deposit_pct, term: u.max_term_months });
-    else { cur.count += 1; if (price > 0 && (cur.from === 0 || price < cur.from)) cur.from = price; }
+    const photo = publicPhotos(u.photos)[0];
+    if (!cur) m.set(k, { type: k, count: 1, from: price, size: num(u.size_sqm), beds: u.bedrooms, deposit: u.deposit_pct, term: u.max_term_months, photo });
+    else {
+      cur.count += 1;
+      if (price > 0 && (cur.from === 0 || price < cur.from)) cur.from = price;
+      cur.photo ??= photo;
+    }
   }
   return [...m.values()];
 }
@@ -68,9 +74,8 @@ export default async function EstatePage({ params }: Params) {
         // First photo large, the next four in a grid beside it (stacked on phones).
         <div className="mb-10 grid gap-3 md:grid-cols-4 md:grid-rows-2">
           {photos.slice(0, 5).map((p, i) => (
-            <div key={p} className={i === 0 ? 'photo-zoom aspect-[4/3] overflow-hidden rounded-[1.5rem] md:col-span-2 md:row-span-2 md:aspect-auto' : 'photo-zoom hidden aspect-[4/3] overflow-hidden rounded-[1.25rem] md:block'}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={p} alt={`${e.name}, photo ${i + 1}`} loading={i === 0 ? 'eager' : 'lazy'} className="h-full w-full object-cover" />
+            <div key={p} className={i === 0 ? 'photo-zoom relative aspect-[4/3] overflow-hidden rounded-[1.5rem] md:col-span-2 md:row-span-2 md:aspect-auto' : 'photo-zoom relative hidden aspect-[4/3] overflow-hidden rounded-[1.25rem] md:block'}>
+              <Image src={p} alt={`${e.name}, photo ${i + 1}`} fill priority={i === 0} sizes={i === 0 ? '(min-width: 768px) 50vw, 100vw' : '25vw'} className="object-cover" />
             </div>
           ))}
         </div>
@@ -91,9 +96,16 @@ export default async function EstatePage({ params }: Params) {
                 <ul className="divide-y">
                   {types.map((t) => (
                     <li key={t.type} className="flex flex-col gap-1 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-                      <div>
+                      <div className="flex items-center gap-3">
+                        {t.photo && (
+                          <div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-xl bg-secondary">
+                            <Image src={t.photo} alt={titleCase(t.type)} fill sizes="80px" className="object-cover" />
+                          </div>
+                        )}
+                        <div>
                         <p className="font-medium">{titleCase(t.type)}</p>
                         <p className="text-xs text-muted-foreground">{[t.beds != null ? `${t.beds} bedrooms` : '', t.size ? `${t.size} m2` : '', `${t.count} available`].filter(Boolean).join(' · ')}</p>
+                        </div>
                       </div>
                       <div className="text-left sm:text-right">
                         {t.from > 0 && <p className="font-semibold tabular">from {kes(t.from)}</p>}

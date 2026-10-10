@@ -59,7 +59,10 @@ export function getEstate(slug: string): Promise<PublicEstate | null> {
   return get<PublicEstate>(`/estates/${encodeURIComponent(slug)}`);
 }
 
-/** Only absolute http(s) photo URLs are shown; private media keys never reach the public site. */
+/**
+ * Photos the public site shows: the API's own published media links only (estate and unit photos),
+ * on the host next.config's remotePatterns lets next/image optimise. Anything else is dropped.
+ */
 export function publicPhotos(list?: string[]): string[] {
-  return (list ?? []).filter((p) => /^https:\/\//.test(p));
+  return (list ?? []).filter((p) => /^https:\/\/maskaniapi\.codevertexafrica\.com\/media\/tenants\/[^/]+\/(properties|units)\//.test(p));
 }
