@@ -25,7 +25,7 @@
 
 ```
 [Marketplace logo]                                   [List your property]
-Shaba Village, Syokimau                     Verified developer, managed on Maskani
+Mvumo Gardens, Kitengela                     Verified developer, managed on Maskani
 Photos carousel
 Amenities: borehole, perimeter wall, 24h security, parking
 Units for sale
