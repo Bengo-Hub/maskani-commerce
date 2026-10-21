@@ -1,5 +1,4 @@
-import Image from 'next/image';
-import { mediaImageLoaderFor } from '@bengo-hub/shared-ui-lib/media';
+import { MediaPhoto } from '@/components/media-photo';
 import Link from 'next/link';
 import { BadgeCheck, Building2, MapPin } from 'lucide-react';
 import { publicPhotos, type PublicEstate } from '@/lib/market';
@@ -17,7 +16,7 @@ export function EstateCard({ estate: e }: { estate: PublicEstate }) {
     <Link href={`/estates/${e.slug}`} className="group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-border/60 bg-card shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
       <div className="photo-zoom relative aspect-[4/3] bg-secondary">
         {cover ? (
-          <Image src={cover} loader={mediaImageLoaderFor(cover)} alt={e.name} fill sizes="(min-width: 1280px) 400px, (min-width: 640px) 50vw, 100vw" className="object-cover" />
+          <MediaPhoto src={cover} alt={e.name} fill sizes="(min-width: 1280px) 400px, (min-width: 640px) 50vw, 100vw" className="object-cover" />
         ) : (
           <div className="flex h-full flex-col items-center justify-center gap-2 text-primary/70">
             <Building2 className="h-7 w-7" aria-hidden />

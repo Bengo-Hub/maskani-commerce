@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
-import { mediaImageLoaderFor } from '@bengo-hub/shared-ui-lib/media';
+import { MediaPhoto } from '@/components/media-photo';
 import { notFound } from 'next/navigation';
 import { BadgeCheck, MapPin, ShieldCheck } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -76,7 +75,7 @@ export default async function EstatePage({ params }: Params) {
         <div className="mb-10 grid gap-3 md:grid-cols-4 md:grid-rows-2">
           {photos.slice(0, 5).map((p, i) => (
             <div key={p} className={i === 0 ? 'photo-zoom relative aspect-[4/3] overflow-hidden rounded-[1.5rem] md:col-span-2 md:row-span-2 md:aspect-auto' : 'photo-zoom relative hidden aspect-[4/3] overflow-hidden rounded-[1.25rem] md:block'}>
-              <Image src={p} loader={mediaImageLoaderFor(p)} alt={`${e.name}, photo ${i + 1}`} fill priority={i === 0} sizes={i === 0 ? '(min-width: 768px) 50vw, 100vw' : '25vw'} className="object-cover" />
+              <MediaPhoto src={p} alt={`${e.name}, photo ${i + 1}`} fill priority={i === 0} sizes={i === 0 ? '(min-width: 768px) 50vw, 100vw' : '25vw'} className="object-cover" />
             </div>
           ))}
         </div>
@@ -100,7 +99,7 @@ export default async function EstatePage({ params }: Params) {
                       <div className="flex items-center gap-3">
                         {t.photo && (
                           <div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-xl bg-secondary">
-                            <Image src={t.photo} loader={mediaImageLoaderFor(t.photo)} alt={titleCase(t.type)} fill sizes="80px" className="object-cover" />
+                            <MediaPhoto src={t.photo} alt={titleCase(t.type)} fill sizes="80px" className="object-cover" />
                           </div>
                         )}
                         <div>
