@@ -176,7 +176,7 @@ export default async function HomePage() {
                   Estates managed on Maskani can list their available units here. Prices, reservations and sale contracts come from the same
                   system you already use to run the estate.
                 </p>
-                <a href="mailto:info@codevertexafrica.com?subject=Listing%20on%20Maskani%20Marketplace" className="inline-flex w-fit items-center rounded-full bg-card px-6 py-3 text-sm font-semibold text-primary transition-transform hover:-translate-y-0.5">
+                <a href="mailto:sales@codevertexafrica.com?subject=Listing%20on%20Maskani%20Marketplace" className="inline-flex w-fit items-center rounded-full bg-card px-6 py-3 text-sm font-semibold text-primary transition-transform hover:-translate-y-0.5">
                   Talk to us about listing
                 </a>
               </div>
